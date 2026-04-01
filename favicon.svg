@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="32" fill="#1a7a3c"/>
+  <circle cx="32" cy="32" r="26" fill="white"/>
+  <circle cx="32" cy="32" r="22" fill="#1a7a3c"/>
+  <!-- Book icon simplified -->
+  <rect x="26" y="20" width="10" height="14" rx="1" fill="#a8d8a8" stroke="white" stroke-width="0.5"/>
+  <rect x="24" y="28" width="14" height="3" rx="1" fill="#7ec8e3"/>
+  <text x="32" y="50" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="6" fill="white">GHS</text>
+</svg>
