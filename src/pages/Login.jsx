@@ -1,20 +1,27 @@
 import { useState } from 'react';
-import { Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Lock, AlertCircle, Eye, EyeOff, LogIn } from 'lucide-react';
 
 export default function Login({ onLogin }) {
+  const [email, setEmail]     = useState('');
   const [password, setPassword] = useState('');
-  const [showPw, setShowPw]     = useState(false);
-  const [error, setError]       = useState(false);
-  const [shaking, setShaking]   = useState(false);
+  const [showPw, setShowPw]   = useState(false);
+  const [error, setError]     = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [shaking, setShaking] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const ok = onLogin(password);
-    if (!ok) {
-      setError(true);
+    setLoading(true);
+    setError(null);
+    try {
+      await onLogin(email.trim(), password);
+    } catch (err) {
+      setError('Incorrect email or password.');
       setShaking(true);
       setPassword('');
       setTimeout(() => setShaking(false), 500);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,16 +74,31 @@ export default function Login({ onLogin }) {
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div>
             <label style={{ display: 'block', fontWeight: '600', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
-              Admin Password
+              Email
+            </label>
+            <input
+              type="email"
+              className="input-field"
+              placeholder="admin@school.com"
+              value={email}
+              onChange={e => { setEmail(e.target.value); setError(null); }}
+              autoFocus
+              required
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontWeight: '600', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+              Password
             </label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPw ? 'text' : 'password'}
                 className="input-field"
-                placeholder="Enter password"
+                placeholder="••••••••"
                 value={password}
-                onChange={e => { setPassword(e.target.value); setError(false); }}
-                autoFocus
+                onChange={e => { setPassword(e.target.value); setError(null); }}
+                required
                 style={{ paddingRight: '3rem' }}
               />
               <button
@@ -96,16 +118,18 @@ export default function Login({ onLogin }) {
           {error && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', backgroundColor: 'var(--absent-bg)', borderRadius: '0.875rem', padding: '0.875rem 1rem', color: 'var(--absent)' }}>
               <AlertCircle size={16} />
-              <span style={{ fontSize: '0.82rem', fontWeight: '500' }}>Incorrect password. Try again.</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: '500' }}>{error}</span>
             </div>
           )}
 
           <button
             type="submit"
             className="btn-primary"
+            disabled={loading}
             style={{ justifyContent: 'center', padding: '1rem', fontSize: '0.95rem', borderRadius: '1.25rem', marginTop: '0.25rem' }}
           >
-            Sign In
+            <LogIn size={18} />
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
 

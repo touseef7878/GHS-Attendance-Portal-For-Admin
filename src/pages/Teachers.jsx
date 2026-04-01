@@ -1,22 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Edit2, Trash2, Plus, X, Search } from 'lucide-react';
 import { attendanceService } from '../services/attendanceService';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Teachers() {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get('q') || '');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTeacher, setCurrentTeacher] = useState({ name: '', subject: '', phone: '' });
   const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => { loadTeachers(); }, []);
 
+  // Sync query param → input
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) setQuery(q);
+  }, [searchParams]);
+
   async function loadTeachers() {
     setLoading(true);
-    const data = await attendanceService.fetchTeachers();
-    setTeachers(data);
-    setLoading(false);
+    try {
+      const data = await attendanceService.fetchTeachers();
+      setTeachers(data);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const filtered = teachers.filter(t =>
@@ -26,16 +41,27 @@ export default function Teachers() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (isEditing) await attendanceService.updateTeacher(currentTeacher.id, currentTeacher);
-    else await attendanceService.addTeacher(currentTeacher);
-    setIsModalOpen(false);
-    loadTeachers();
+    setSaving(true);
+    setError(null);
+    try {
+      if (isEditing) await attendanceService.updateTeacher(currentTeacher.id, currentTeacher);
+      else await attendanceService.addTeacher(currentTeacher);
+      setIsModalOpen(false);
+      loadTeachers();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = async (id) => {
-    if (confirm('Remove this teacher?')) {
+    if (!confirm('Remove this teacher? This will also delete their attendance records.')) return;
+    try {
       await attendanceService.deleteTeacher(id);
       loadTeachers();
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -157,8 +183,9 @@ export default function Teachers() {
               ))}
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.75rem' }}>
                 <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn-primary">Save Teacher</button>
+                <button type="submit" className="btn-primary" disabled={saving}>{saving ? 'Saving…' : 'Save Teacher'}</button>
               </div>
+              {error && <p style={{ color: 'var(--absent)', fontSize: '0.82rem', textAlign: 'right' }}>{error}</p>}
             </form>
           </div>
         </div>

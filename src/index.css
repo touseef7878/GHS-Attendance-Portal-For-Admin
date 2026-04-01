@@ -111,7 +111,7 @@ button {
 .btn-icon:hover { background-color: var(--surface-container-high); color: var(--primary); }
 
 /* ── Inputs ── */
-input, select {
+input, select, textarea {
   font-family: inherit;
   font-size: 0.9rem;
 }

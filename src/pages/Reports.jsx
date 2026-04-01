@@ -7,17 +7,20 @@ export default function Reports() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
 
   useEffect(() => {
     attendanceService.fetchAttendanceHistory().then(d => {
       setHistory(d);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
-  const filtered = history.filter(r =>
-    r.teacherName.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = history.filter(r => {
+    const matchName = r.teacherName.toLowerCase().includes(search.toLowerCase());
+    const matchDate = dateFilter ? r.date === dateFilter : true;
+    return matchName && matchDate;
+  });
 
   const handleExport = () => {
     let csv = 'Teacher Name,Date,Status\n';
@@ -76,7 +79,12 @@ export default function Reports() {
           <>
             <div style={{ padding: '1.5rem 1.75rem', backgroundColor: 'var(--surface-container-low)', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <input type="text" className="input-field" style={{ maxWidth: '260px' }} placeholder="Search teacher name..." value={search} onChange={e => setSearch(e.target.value)} />
-              <input type="date" className="input-field" style={{ maxWidth: '180px' }} />
+              <input type="date" className="input-field" style={{ maxWidth: '180px' }} value={dateFilter} onChange={e => setDateFilter(e.target.value)} />
+              {(search || dateFilter) && (
+                <button className="btn-secondary" style={{ padding: '0.625rem 1rem', fontSize: '0.82rem' }} onClick={() => { setSearch(''); setDateFilter(''); }}>
+                  Clear
+                </button>
+              )}
             </div>
             {loading ? (
               <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--on-secondary-container)' }}>Loading...</div>

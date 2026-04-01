@@ -172,7 +172,7 @@ export default function CheckIn() {
                 placeholder="e.g. Arrived at 8:10 am, signed register"
                 value={note}
                 onChange={e => setNote(e.target.value)}
-                style={{ resize: 'vertical', lineHeight: 1.6 }}
+                style={{ resize: 'vertical', lineHeight: 1.6, fontFamily: 'inherit' }}
               />
             </div>
 

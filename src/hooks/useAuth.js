@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react';
-
-const SESSION_KEY = 'ghs_admin_auth';
-const CORRECT_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+import { supabase } from '../services/supabaseClient';
 
 export function useAuth() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === 'true');
+  const [authed, setAuthed]   = useState(false);
+  const [loading, setLoading] = useState(true); // true until session check completes
 
-  const login = (password) => {
-    if (password === CORRECT_PASSWORD) {
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      setAuthed(true);
-      return true;
-    }
-    return false;
+  useEffect(() => {
+    // Check existing session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthed(!!session);
+      setLoading(false);
+    });
+
+    // Listen for sign-in / sign-out events
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthed(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const login = async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
   };
 
-  const logout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    setAuthed(false);
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
-  return { authed, login, logout };
+  return { authed, loading, login, logout };
 }
