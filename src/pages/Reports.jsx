@@ -40,7 +40,7 @@ export default function Reports() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="page-header">
         <div>
           <p style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-secondary-container)', marginBottom: '0.25rem' }}>
             {history.length} records
@@ -74,7 +74,7 @@ export default function Reports() {
         ))}
       </div>
 
-      <div className="ambient-shadow" style={{ backgroundColor: 'var(--surface-container-lowest)', borderRadius: '2rem', overflow: 'hidden' }}>
+      <div className="ambient-shadow table-scroll" style={{ backgroundColor: 'var(--surface-container-lowest)', borderRadius: '2rem', overflow: 'hidden' }}>
         {activeTab === 'attendance' && (
           <>
             <div style={{ padding: '1.5rem 1.75rem', backgroundColor: 'var(--surface-container-low)', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

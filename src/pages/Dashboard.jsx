@@ -58,16 +58,16 @@ export default function Dashboard() {
       )}
 
       {/* Top row */}
-      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+      <div className="dash-top">
 
         {/* Hero card */}
-        <div className="hero-card ambient-shadow" style={{ minWidth: '280px', flex: '1.4' }}>
+        <div className="hero-card ambient-shadow">
           <div style={{ position: 'relative', zIndex: 1 }}>
             <p style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '0.5rem' }}>
               Attendance Rate · Today
             </p>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <span style={{ fontSize: '4.5rem', fontFamily: 'Manrope, sans-serif', fontWeight: '800', lineHeight: 1, letterSpacing: '-0.04em' }}>
+              <span style={{ fontSize: '4.5rem', fontFamily: 'Manrope, sans-serif', fontWeight: '800', lineHeight: 1, letterSpacing: '-0.04em' }} className="hero-rate">
                 {loading ? '—' : `${rate}%`}
               </span>
               {!loading && trend.length >= 2 && (() => {
@@ -103,19 +103,19 @@ export default function Dashboard() {
         </div>
 
         {/* Stat cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1, minWidth: '180px' }}>
+        <div className="stat-col">
           <StatCard label="Total Staff" value={stats.total} icon={<Users size={20} />} loading={loading} />
           <StatCard label="Present" value={stats.present} icon={<UserCheck size={20} />} loading={loading} accent="var(--present)" accentBg="var(--present-bg)" />
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1, minWidth: '180px' }}>
+        <div className="stat-col">
           <StatCard label="Absent" value={stats.absent} icon={<UserX size={20} />} loading={loading} accent="var(--absent)" accentBg="var(--absent-bg)" />
           <StatCard label="Late" value={stats.late} icon={<TrendingUp size={20} />} loading={loading} accent="var(--late)" accentBg="var(--late-bg)" />
         </div>
       </div>
 
       {/* Bottom row */}
-      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+      <div className="dash-bottom">
 
         {/* Recent teachers */}
         <div className="ambient-shadow" style={{

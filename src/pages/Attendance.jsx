@@ -52,14 +52,14 @@ export default function Attendance() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="page-header">
         <div>
           <p style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-secondary-container)', marginBottom: '0.25rem' }}>
             Attendance Register
           </p>
           <h2 style={{ fontSize: '1.75rem' }}>{fmtDate(date)}</h2>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', backgroundColor: 'var(--surface-container-lowest)', borderRadius: '1rem', padding: '0.25rem', boxShadow: '0 2px 8px rgba(25,28,30,0.05)' }}>
             <button className="btn-icon" onClick={() => setDate(d => offsetDate(d, -1))}><ChevronLeft size={18} /></button>
             <input

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarCheck, FileBarChart, CheckSquare } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarCheck, FileBarChart, CheckSquare, X } from 'lucide-react';
 
 const routes = [
   { name: 'Dashboard',  path: '/',           icon: LayoutDashboard },
@@ -9,35 +9,31 @@ const routes = [
   { name: 'Requests',   path: '/requests',   icon: CheckSquare },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   return (
-    <aside style={{
-      width: '260px',
-      minWidth: '260px',
-      backgroundColor: 'var(--surface-container-low)',
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      padding: '2rem 0',
-    }}>
+    <aside className={`sidebar${isOpen ? ' open' : ''}`}>
       {/* Brand */}
-      <div style={{ padding: '0 1.5rem', marginBottom: '2.5rem' }}>
+      <div style={{ padding: '0 1.5rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <img
             src="/Logo.jpg"
-            alt="GHS Khanpur Logo"
-            style={{ width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }}
+            alt="GHS Khanpur"
+            style={{ width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }}
           />
           <div>
-            <div style={{ fontFamily: 'Manrope, sans-serif', fontWeight: '800', fontSize: '0.9rem', color: 'var(--on-surface)', letterSpacing: '-0.02em', lineHeight: 1.15 }}>GHS Khanpur</div>
-            <div style={{ fontFamily: 'Manrope, sans-serif', fontWeight: '600', fontSize: '0.65rem', color: 'var(--on-secondary-container)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Staff Portal</div>
+            <div style={{ fontFamily: 'Manrope, sans-serif', fontWeight: '800', fontSize: '0.88rem', color: 'var(--on-surface)', letterSpacing: '-0.02em', lineHeight: 1.15 }}>GHS Khanpur</div>
+            <div style={{ fontFamily: 'Manrope, sans-serif', fontWeight: '600', fontSize: '0.62rem', color: 'var(--on-secondary-container)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Staff Portal</div>
           </div>
         </div>
+        {/* Close button — mobile only */}
+        <button className="btn-icon hamburger" onClick={onClose} style={{ display: 'flex' }}>
+          <X size={18} />
+        </button>
       </div>
 
       {/* Nav label */}
-      <div style={{ padding: '0 2rem', marginBottom: '0.75rem' }}>
-        <span style={{ fontSize: '0.68rem', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--on-secondary-container)', opacity: 0.6 }}>
+      <div style={{ padding: '0 1.75rem', marginBottom: '0.5rem' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--on-secondary-container)', opacity: 0.6 }}>
           Navigation
         </span>
       </div>
@@ -49,6 +45,7 @@ export default function Sidebar() {
             key={path}
             to={path}
             end={path === '/'}
+            onClick={onClose}
             style={({ isActive }) => ({
               display: 'flex',
               alignItems: 'center',
@@ -69,8 +66,7 @@ export default function Sidebar() {
               <>
                 {isActive && (
                   <div style={{
-                    position: 'absolute',
-                    left: 0, top: '20%',
+                    position: 'absolute', left: 0, top: '20%',
                     height: '60%', width: '3px',
                     backgroundColor: 'var(--primary)',
                     borderRadius: '0 3px 3px 0',
@@ -84,17 +80,13 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer */}
-      <div style={{ padding: '1.5rem 1.75rem 0', marginTop: 'auto' }}>
-        <div style={{
-          backgroundColor: 'var(--primary-fixed)',
-          borderRadius: '1.25rem',
-          padding: '1.25rem',
-        }}>
-          <p style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--on-primary-fixed)', marginBottom: '0.25rem', fontFamily: 'Manrope, sans-serif' }}>
+      {/* Footer card */}
+      <div style={{ padding: '1.5rem 1.5rem 0', marginTop: 'auto' }}>
+        <div style={{ backgroundColor: 'var(--primary-fixed)', borderRadius: '1.25rem', padding: '1.125rem' }}>
+          <p style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--on-primary-fixed)', marginBottom: '0.2rem', fontFamily: 'Manrope, sans-serif' }}>
             Govt High School Khanpur
           </p>
-          <p style={{ fontSize: '0.72rem', color: 'var(--primary)', lineHeight: 1.4 }}>
+          <p style={{ fontSize: '0.7rem', color: 'var(--primary)', lineHeight: 1.4 }}>
             Haripur, KPK · 2025–26
           </p>
         </div>

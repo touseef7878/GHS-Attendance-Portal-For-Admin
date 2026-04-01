@@ -75,19 +75,19 @@ export default function Teachers() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="page-header">
         <div>
           <p style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-secondary-container)', marginBottom: '0.25rem' }}>
             {teachers.length} members
           </p>
           <h2 style={{ fontSize: '2rem' }}>Teaching Staff</h2>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface-container-lowest)', borderRadius: '0.875rem', padding: '0.625rem 1rem', boxShadow: '0 2px 8px rgba(25,28,30,0.05)' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface-container-lowest)', borderRadius: '0.875rem', padding: '0.625rem 1rem', boxShadow: '0 2px 8px rgba(25,28,30,0.05)', flex: 1, minWidth: '180px' }}>
             <Search size={15} color="var(--on-secondary-container)" />
             <input
               className="input-field"
-              style={{ background: 'none', padding: 0, width: '180px', fontSize: '0.875rem' }}
+              style={{ background: 'none', padding: 0, fontSize: '0.875rem' }}
               placeholder="Search name or subject…"
               value={query}
               onChange={e => setQuery(e.target.value)}
@@ -100,7 +100,7 @@ export default function Teachers() {
       </div>
 
       {/* Table card */}
-      <div className="ambient-shadow" style={{ backgroundColor: 'var(--surface-container-lowest)', borderRadius: '2rem', overflow: 'hidden' }}>
+      <div className="ambient-shadow table-scroll" style={{ backgroundColor: 'var(--surface-container-lowest)', borderRadius: '2rem', overflow: 'hidden' }}>
         {loading ? (
           <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--on-secondary-container)' }}>Loading…</div>
         ) : (
