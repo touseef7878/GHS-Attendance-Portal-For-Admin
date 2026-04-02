@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bell, Search, LogOut, X, Menu } from 'lucide-react';
+import { Bell, LogOut, Menu } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { attendanceService } from '../services/attendanceService';
 
@@ -16,8 +16,6 @@ export default function Topbar({ logout, onMenuClick }) {
   const navigate = useNavigate();
   const { title, sub } = titles[pathname] ?? { title: 'Dashboard', sub: '' };
 
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState('');
   const [pendingCount, setPendingCount] = useState(0);
 
   useEffect(() => {
@@ -53,31 +51,6 @@ export default function Topbar({ logout, onMenuClick }) {
       </div>
 
       <div className="topbar-right">
-        {/* Search */}
-        {searchOpen ? (
-          <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface-container-lowest)', borderRadius: '9999px', padding: '0.4rem 0.75rem 0.4rem 1.25rem', boxShadow: '0 2px 8px rgba(25,28,30,0.08)' }}>
-            <Search size={14} color="var(--on-secondary-container)" />
-            <input
-              autoFocus
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder="Search teachers…"
-              style={{ border: 'none', background: 'none', outline: 'none', fontSize: '0.85rem', width: '140px', fontFamily: 'inherit', color: 'var(--on-surface)' }}
-            />
-            <button type="button" onClick={() => { setSearchOpen(false); setQuery(''); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--on-secondary-container)' }}>
-              <X size={14} />
-            </button>
-          </form>
-        ) : (
-          <button
-            onClick={() => setSearchOpen(true)}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface-container-low)', borderRadius: '9999px', padding: '0.5rem 1rem', border: 'none', cursor: 'pointer' }}
-          >
-            <Search size={15} color="var(--on-secondary-container)" />
-            <span className="search-label" style={{ fontSize: '0.85rem', color: 'var(--on-secondary-container)' }}>Search…</span>
-          </button>
-        )}
-
         {/* Bell */}
         <button className="btn-icon" style={{ position: 'relative' }} onClick={() => navigate('/requests')} title="Pending requests">
           <Bell size={18} />
