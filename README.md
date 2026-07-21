@@ -9,12 +9,14 @@ Built with React + Vite + Supabase.
 ## Features
 
 - **Dashboard** — live attendance rate, weekly trend chart, staff status, school map
-- **Teacher Registry** — add, edit, delete teachers with search
+- **Teacher Registry** — add, edit, delete teachers with search functionality
 - **Daily Attendance** — mark Present / Absent / Late per teacher, navigate by date
-- **Reports** — full attendance history, filter by name & date, export to CSV
+- **Reports** — full attendance history, filter by name & date, export to CSV with advanced filtering
 - **Attendance Requests** — teachers submit self check-in requests; principal approves/rejects
 - **Teacher Check-In Page** — public page at `/checkin`, no login required
 - **Auth** — Supabase email/password login protects the admin panel
+- **Mobile Responsive** — fully responsive design optimized for mobile devices
+- **Search & Filter** — advanced search bars and filtering across all major sections
 
 ---
 
@@ -68,7 +70,11 @@ This creates:
 In **Supabase Dashboard → Authentication → Users → Add user**:
 
 - Email: `touseefghs@gmail.com`
-- Password: *(your chosen password)*
+- Password: `GHS@Khanpur2024` (or your chosen secure password)
+
+**Login Credentials:**
+- Email: `touseefghs@gmail.com`
+- Password: (as set in Supabase)
 
 ### 5. Seed demo data (optional)
 
@@ -118,3 +124,43 @@ The `vercel.json` file handles SPA routing (all paths → `index.html`).
 **Govt High School Khanpur**
 RW37+HH9, Khanpur, Haripur 22620, KPK, Pakistan
 Phone: (0995) 640230 · Hours: 8:15 am – 2:00 pm
+
+---
+
+## Database Configuration
+
+### Supabase Schema
+The project uses Supabase as the backend with the following tables:
+- `teachers` — stores teacher information (name, subject, phone, avatar)
+- `attendance` — daily attendance records with status (Present/Absent/Late)
+- `attendance_requests` — teacher self check-in requests for approval
+
+### Seed Data
+Run the seed script to populate the database with demo data:
+```bash
+npm run seed
+```
+This creates 50 teachers with attendance records for today (20 Present, 20 Absent, 10 Late).
+
+---
+
+## Development Notes
+
+### Environment Setup
+1. Copy `.env.example` to `.env.local`
+2. Add your Supabase credentials
+3. Run `npm install` to install dependencies
+4. Run `npm run dev` to start the development server
+
+### Current Configuration
+- Supabase URL: `https://vmmmvjbctdqhxtlqieaa.supabase.co`
+- Admin Email: `touseefghs@gmail.com`
+- Password: Set in Supabase Dashboard (Authentication → Users)
+
+---
+
+## Recent Updates
+- Added filter and search bars across all major sections
+- Updated report logic with enhanced filtering
+- Mobile-responsive design improvements
+- Enhanced teacher check-in workflow
