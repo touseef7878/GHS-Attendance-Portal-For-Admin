@@ -1,5 +1,7 @@
 # GHS Khanpur — Staff Attendance Portal
 
+![GHS Khanpur Admin Panel](https://github.com/user-attachments/assets/58eb4346-38bb-4f3d-96c3-d29d6de0d1dc)
+
 A modern teacher attendance management system for **Govt High School Khanpur, Haripur, KPK**.
 
 Built with React + Vite + Supabase.
